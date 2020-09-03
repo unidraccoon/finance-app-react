@@ -10,3 +10,7 @@ In the project directory, you can run:
 
 Open [http://localhost:1234](http://localhost:1234) to view it in the browser.
 
+### `npm test`
+
+Run Cypress.
+
