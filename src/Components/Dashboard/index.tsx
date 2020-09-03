@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "effector-react";
 import { Grid, Icon } from "semantic-ui-react";
-import { accounts } from "../Accounts/Store";
+import { accounts, IAccount } from "../Accounts/Store";
 import { AccountList } from "./List";
 
-export function abc(n) {
+export function abc(n: string) {
   n += "";
   n = new Array(4 - (n.length % 3)).join("U") + n;
   return n.replace(/([0-9U]{3})/g, "$1 ").replace(/U/g, "");
 }
 
 export const Dashboard = () => {
-  const accountsList = useStore(accounts);
-  const [rates, setRates] = useState("");
+  const accountsList = useStore<IAccount[]>(accounts);
+  const [rates, setRates] = useState<number[] | undefined>(undefined);
   const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
@@ -30,9 +30,9 @@ export const Dashboard = () => {
   const allCash = () => {
     let cash = 0;
     for (let index = 0; index < accountsList.length; index++) {
-      if (accountsList[index].usd) cash += accountsList[index].usd;
-      if (accountsList[index].eur) cash += accountsList[index].eur * rates[0];
-      if (accountsList[index].jpy) cash += accountsList[index].jpy * rates[1];
+      if (accountsList[index].usd && accountsList[index]) cash += Number(accountsList[index].usd);
+      if (accountsList[index].eur && rates) cash += Number(accountsList[index].eur) * rates[0];
+      if (accountsList[index].jpy && rates) cash += Number(accountsList[index].jpy) * rates[1];
     }
     return cash > 0 ? (
       <span className={"mono positive"}>
@@ -63,7 +63,7 @@ export const Dashboard = () => {
               {collapsed && (
                 <div className="section__body">
                   <div className="account-widget">
-                    <AccountList rates={rates} />
+                    {rates && <AccountList rates={rates} />}
                   </div>
                 </div>
               )}

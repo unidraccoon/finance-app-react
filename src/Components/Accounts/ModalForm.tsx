@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Form, Checkbox, Input, Modal, Button } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 
-import { addAccount } from "./Store";
-import { NONAME } from "dns";
+import { addAccount, IAccount } from "./Store";
 
 export enum GroupsFromAccount {
   Cash = "Cash",
@@ -45,10 +44,10 @@ export const ModalForm = () => {
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState("");
-  const [group, setGroup] = useState("Cash");
-  const [usd, setUsd] = useState({ val: undefined, use: true });
-  const [eur, setEur] = useState({ val: undefined, use: false });
-  const [jpy, setJpy] = useState({ val: undefined, use: false });
+  const [group, setGroup] = useState<string | number | boolean | (string | number | boolean)[] | undefined>("Cash");
+  const [usd, setUsd] = useState<{val: number | undefined, use: boolean}>({ val: undefined, use: true });
+  const [eur, setEur] = useState<{val: number | undefined, use: boolean}>({ val: undefined, use: false });
+  const [jpy, setJpy] = useState<{val: number | undefined, use: boolean}>({ val: undefined, use: false });
   const [dashboard, setDashboard] = useState(false);
 
   return (
@@ -71,10 +70,10 @@ export const ModalForm = () => {
           <Form
             className="account-form"
             onSubmit={() => {
-              let account = {
+              let account: IAccount  = {
                 id: Date.now(),
                 name: name,
-                group: group,
+                group: String(group),
                 dashboard: dashboard,
                 usd: usd.use ? usd.val : undefined,
                 eur: eur.use ? eur.val : undefined,

@@ -2,9 +2,9 @@ import { createStore, createEvent } from "effector";
 import connectLocalStorage from "effector-localstorage";
 // import { useStore } from "effector-react";
 
-export const addAccount = createEvent("add account");
-export const removeAccount = createEvent("remove account");
-export const updateAccount = createEvent("update account");
+export const addAccount = createEvent<IAccount>("add account");
+export const removeAccount = createEvent<IAccount>("remove account");
+export const updateAccount = createEvent<IAccount>("update account");
 
 export const accountsLocalStorage = connectLocalStorage(
   "accounts"
@@ -66,7 +66,7 @@ const initAccounts: IAccount[] = [
   },
 ];
 
-export const accounts = createStore(
+export const accounts = createStore<IAccount[]>(
   accountsLocalStorage.init([...initAccounts])
 )
   .on(addAccount, (state, a) => [...state, a])

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Form, Checkbox, Input, Modal, Button } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 
-import { addAccount, updateAccount } from "./Store";
-import { removeAccount } from "./Store";
+import { updateAccount, removeAccount, IAccount } from "./Store";
 
 export enum GroupsFromAccount {
   Cash = "Cash",
@@ -41,11 +40,15 @@ const groupsOptions = [
   },
 ];
 
-export const ModalFormChange = ({ account }) => {
+interface IModalFormChange {
+  account: IAccount
+}
+
+export const ModalFormChange: React.FC<IModalFormChange> = ({ account }) => {
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState(account.name);
-  const [group, setGroup] = useState(account.group);
+  const [group, setGroup] = useState<string | number | boolean | (string | number | boolean)[] | undefined>(account.group);
   const [usd, setUsd] = useState(
     account.usd
       ? { val: account.usd, use: true }
@@ -80,10 +83,10 @@ export const ModalFormChange = ({ account }) => {
             <Form
               className="account-form"
               onSubmit={() => {
-                let newAccount = {
+                let newAccount: IAccount = {
                   id: account.id,
                   name: name,
-                  group: group,
+                  group: String(group),
                   dashboard: dashboard,
                   usd: usd.use ? usd.val : undefined,
                   eur: eur.use ? eur.val : undefined,

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { ModalForm } from "./ModalForm";
 import { AccountList } from "./List";
 
+
+
 export const Accounts = () => {
-  const [rates, setRates] = useState("");
+  const [rates, setRates] = useState<number[] | undefined>(undefined);
 
   useEffect(() => {
     if (!rates) {
@@ -23,7 +25,7 @@ export const Accounts = () => {
         <ModalForm />
       </div>
       <div className="accounts-list-wrapper">
-        <AccountList rates={rates} />
+        {rates && <AccountList rates={rates} />}
       </div>
     </div>
   );

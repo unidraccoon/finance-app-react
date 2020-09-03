@@ -15,7 +15,11 @@ const groupExists = (group: string) => {
   }
 };
 
-export const AccountList = ({ rates }) => {
+interface IAccountList {
+  rates: number[]
+}
+
+export const AccountList: React.FC<IAccountList> = ({ rates }) => {
   return (
     <>
       {groups.map((group, idx) =>
@@ -84,8 +88,12 @@ const AccountsGroup = (props: any) => {
   );
 };
 
-const AccountInterface = ({ account }) => {
-  const cashStyle = (cash) => {
+interface IAccountInterface {
+  account: any
+}
+
+const AccountInterface: React.FC<IAccountInterface> = ({ account }) => {
+  const cashStyle = (cash: number) => {
     if (cash && cash >= 0) {
       return "mono positive";
     }
